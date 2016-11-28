@@ -1,3 +1,7 @@
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+
 function Square(props) {
   return (
     <button className="square" onClick={() => props.onClick()}>
@@ -6,7 +10,7 @@ function Square(props) {
   );
 }
 
-class Board extends React.Component {
+class Board extends Component {
   render() {
     return (
       <div>
@@ -28,13 +32,13 @@ class Board extends React.Component {
       </div>
     );
   }
-  
+
   renderSquare(i) {
     return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />;
   }
 }
 
-class Game extends React.Component {
+class Game extends Component {
   constructor() {
     super();
     this.state = this.initialState();
@@ -54,7 +58,7 @@ class Game extends React.Component {
         </li>
       );
     });
-    
+
     return (
       <div className="game">
         <div className="game-board">
@@ -66,14 +70,14 @@ class Game extends React.Component {
         <div className="game-info">
           <div>{status}</div>
           <ol>{moves}</ol>
-        </div>
-        <div className="game-menu">
-          <a href="#" onClick={() => this.resetGame()}>Reset</a>
+          <div className="game-menu">
+            <a href="#" onClick={() => this.resetGame()}>Reset</a>
+          </div>
         </div>
       </div>
     );
   }
-  
+
   calculateStatus(squares) {
     const winner = calculateWinner(squares);
     let status;
@@ -84,7 +88,7 @@ class Game extends React.Component {
     }
     return status;
   }
-  
+
   handleClick(i) {
     const history = this.state.history;
     const historyUpToStep = history.slice(0, this.state.stepNumber + 1);
@@ -103,14 +107,14 @@ class Game extends React.Component {
       stepNumber: updatedHistory.length - 1,
     });
   }
-  
+
   jumpTo(step) {
     this.setState({
       xIsNext: (step % 2) ? false : true,
       stepNumber: step,
     });
   }
-  
+
   resetGame() {
     this.setState(this.initialState());
   }
@@ -125,13 +129,6 @@ class Game extends React.Component {
     };
   }
 }
-
-// ========================================
-
-ReactDOM.render(
-  <Game />,
-  document.getElementById('container')
-);
 
 function calculateWinner(squares) {
   const lines = [
@@ -152,3 +149,27 @@ function calculateWinner(squares) {
   }
   return null;
 }
+
+class Header extends Component {
+  render() {
+    return (
+      <div className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <h2>Tic-Tac-Toe</h2>
+      </div>
+    );
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Header />
+        <Game />
+      </div>
+    );
+  }
+}
+
+export default App;
